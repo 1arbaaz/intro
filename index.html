@@ -159,60 +159,84 @@
                     <!-- Space added after each command result -->
                 </div>
                 <div style="display: flex; flex-direction: column; margin-top: 20px;">
-                    <div class="instructions" style="margin-bottom: 10px;">
-                        <p>Instructions:</p>
-                        <p>Type the following commands to explore:</p>
-                        <ul>
-                            <li><strong>help</strong> - Show available commands</li>
-                            <li><strong>about</strong> - About me</li>
-                            <li><strong>projects</strong> - List of projects</li>
-                            <li><strong>skills</strong> - My skills</li>
-                            <li><strong>contact</strong> - Contact details</li>
-                        </ul>
-                    </div>
+                   
                     <div class="input-line">
                         <span>visitor@arbaz:~$</span>
-                        <input type="text" id="command-input" placeholder="Type a command...">
+                        <input type="text" id="command-input" placeholder="Type 'help' for commands...">
                         <div class="blinking-cursor"></div>
                     </div>
                 </div>
                 <div class="scanlines"></div>
             </div>
         </div>
+        
     </div>
     <script>
         const input = document.getElementById('command-input');
         const outputArea = document.querySelector('.output-area');
-
+        
         const commands = {
-            help: `Available commands:\nhelp - Show available commands\nabout - About me\nprojects - List of projects\nskills - My skills\ncontact - Contact details`,
+            help: `Available commands:
+        help - Show available commands
+        about - About me
+        projects - List of projects
+        skills - My skills
+        contact - Contact details
+        clear - Clear terminal`,
+        
             about: `Aspiring Software Developer | MCA @ VJTI Mumbai | Skilled in Python, Django, Django REST Framework | Building backend projects & strong CS fundamentals | Open to SDE roles & internships`,
-            projects: `Personal Projects:\n1. BookMyStay – Full-Stack Rental Booking Platform\n   - Built a scalable, production-ready rental booking web application.\n   - Tech Stack: Python, Django, Django REST Framework, PostgreSQL, Docker\n   - Integrated real-time chat using Django Channels and WebSockets.\n\n2. SQL Data Engineering Project\n   - Production-ready data warehouse solution.\n   - Medallion Architecture: Implements Bronze, Silver, and Gold layers.\n   - Complete ETL Pipeline: From raw CSV files to analytical insights.`,
-            skills: `Skills:\nProgramming Languages: Python, SQL\nFrameworks and Libraries: Django, Django Rest Framework\nDatabases: PostgreSQL\nTechnologies: Linux, VS Code, PyCharm`,
-            contact: `Contact:\n+91-9766463187\narbazshaikh.dev@gmail.com\nlinkedin: www.linkedin.com/in/1arbaz`,
+        
+            projects: `Personal Projects:
+        1. BookMyStay – Full-Stack Rental Booking Platform
+         - Built a scalable, production-ready rental booking web application.
+         - Tech Stack: Python, Django, Django REST Framework, PostgreSQL, Docker
+         - Integrated real-time chat using Django Channels and WebSockets.
+        
+        2. SQL Data Engineering Project
+         - Production-ready data warehouse solution.
+         - Medallion Architecture: Bronze, Silver, Gold layers
+         - Complete ETL Pipeline from raw CSV to analytics`,
+        
+            skills: `Skills:
+        Programming Languages: Python, SQL
+        Frameworks: Django, Django REST Framework
+        Databases: PostgreSQL
+        Tools: Linux, VS Code, PyCharm`,
+        
+            contact: `Contact:
+        +91-9766463187
+        arbazshaikh.dev@gmail.com
+        linkedin: www.linkedin.com/in/1arbaz`
         };
-
+        
         function appendToOutput(output) {
             const outputElement = document.createElement('div');
             outputElement.textContent = output;
             outputElement.style.whiteSpace = 'pre';
-            outputElement.style.marginBottom = '10px'; // Add space after each command result
+            outputElement.style.marginBottom = '10px';
             outputArea.appendChild(outputElement);
             outputArea.scrollTop = outputArea.scrollHeight;
         }
-
+        
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const command = input.value.trim();
+        
                 appendToOutput(`visitor@arbaz:~$ ${command}`);
-                if (commands[command]) {
+        
+                if (command === 'clear') {
+                    outputArea.innerHTML = '';
+                } 
+                else if (commands[command]) {
                     appendToOutput(commands[command]);
-                } else {
-                    appendToOutput('Command not found. Type "help" for a list of commands.');
+                } 
+                else {
+                    appendToOutput('Command not found. Type "help" for commands.');
                 }
+        
                 input.value = '';
             }
         });
-    </script>
+        </script>
 </body>
 </html>

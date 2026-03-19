@@ -11,13 +11,38 @@
             background-color: #000;
             color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
+            overflow-x: hidden; /* only hide horizontal */
+        }
+
+        .top-section {
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* Mobile view */
+        @media (max-width: 768px) {
+            .top-section {
+                flex-direction: column;
+            }
+        
+            .ascii-art {
+                font-size: 10px; /* shrink ASCII */
+                overflow-x: auto; /* allow scroll if needed */
+            }
+        
+            .details {
+                margin-left: 0 !important;
+            }
+        }
+
+        .input-line input {
+            font-size: 16px; /* prevents zoom on mobile */
         }
 
         .terminal {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
             position: relative;
@@ -107,8 +132,19 @@
             color: #00ff00;
             outline: none;
             font-family: inherit;
-            font-size: inherit;
+            font-size: 16px; /* prevents zoom on mobile */
             width: 100%;
+        }
+
+        .instructions {
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .instructions {
+                padding: 10px;
+                font-size: 12px;
+            }
         }
 
         .blinking-cursor {
@@ -135,7 +171,7 @@
                 <div class="button maximize"></div>
             </div>
             <div class="terminal-body">
-                <div style="display: flex;">
+                <div class="top-section">
                     <div class="ascii-art" style="margin-right: 20px;">
                         <pre>
      █████╗ ██████╗ ██████╗  █████╗ ███████╗

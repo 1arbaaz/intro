@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbaz's Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+        }
+
+        .terminal {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .terminal-window {
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            overflow: hidden;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            padding: 5px;
+        }
+
+        .terminal-header .button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .terminal-header .button.close {
+            background-color: #ff5f56;
+        }
+
+        .terminal-header .button.minimize {
+            background-color: #ffbd2e;
+        }
+
+        .terminal-header .button.maximize {
+            background-color: #27c93f;
+        }
+
+        .terminal-body {
+            flex-grow: 1;
+            padding: 10px;
+            background-color: #000;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .ascii-art {
+            white-space: pre;
+            font-size: 16px;
+            line-height: 1.2;
+        }
+
+        .ascii-art + .details {
+            margin-left: 20px;
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0) 0px,
+                rgba(0, 0, 0, 0) 1px,
+                rgba(0, 0, 0, 0.1) 2px
+            );
+            pointer-events: none;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-line span {
+            margin-right: 5px;
+        }
+
+        .input-line input {
+            background: none;
+            border: none;
+            color: #00ff00;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            width: 100%;
+        }
+
+        .blinking-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                background-color: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="button close"></div>
+                <div class="button minimize"></div>
+                <div class="button maximize"></div>
+            </div>
+            <div class="terminal-body">
+                <div style="display: flex;">
+                    <div class="ascii-art" style="margin-right: 20px;">
+                        <pre>
+     █████╗ ██████╗ ██████╗  █████╗ ███████╗
+    ██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══███╔╝
+    ███████║██████╔╝██████╔╝███████║  ███╔╝ 
+    ██╔══██║██╔══██╗██╔══██╗██╔══██║ ███╔╝  
+    ██║  ██║██║  ██║██████╔╝██║  ██║███████╗
+    ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝
+                        </pre>
+                    </div>
+                    <div class="details">
+                        <p>Contact Details:</p>
+                        <p>+91-9766463187</p>
+                        <p>arbazshaikh.dev@gmail.com</p>
+                        <p>linkedin: <a href="https://www.linkedin.com/in/1arbaz" target="_blank" style="color: #00ff00; text-decoration: none;">www.linkedin.com/in/1arbaz</a></p>
+                        <p>About:</p>
+                        <p>"Aspiring Software Developer | MCA @ VJTI Mumbai | Skilled in Python, Django, Django REST Framework | Building backend projects & strong CS fundamentals | Open to SDE roles & internships"</p>
+                    </div>
+                </div>
+                <div class="output-area" style="margin-top: 20px; overflow-y: auto; max-height: 200px; border-top: 1px solid #00ff00; padding-top: 10px;">
+                    <!-- Space added after each command result -->
+                </div>
+                <div style="display: flex; flex-direction: column; margin-top: 20px;">
+                    <div class="instructions" style="margin-bottom: 10px;">
+                        <p>Instructions:</p>
+                        <p>Type the following commands to explore:</p>
+                        <ul>
+                            <li><strong>help</strong> - Show available commands</li>
+                            <li><strong>about</strong> - About me</li>
+                            <li><strong>projects</strong> - List of projects</li>
+                            <li><strong>skills</strong> - My skills</li>
+                            <li><strong>contact</strong> - Contact details</li>
+                        </ul>
+                    </div>
+                    <div class="input-line">
+                        <span>visitor@arbaz:~$</span>
+                        <input type="text" id="command-input" placeholder="Type a command...">
+                        <div class="blinking-cursor"></div>
+                    </div>
+                </div>
+                <div class="scanlines"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const input = document.getElementById('command-input');
+        const outputArea = document.querySelector('.output-area');
+
+        const commands = {
+            help: `Available commands:\nhelp - Show available commands\nabout - About me\nprojects - List of projects\nskills - My skills\ncontact - Contact details`,
+            about: `Aspiring Software Developer | MCA @ VJTI Mumbai | Skilled in Python, Django, Django REST Framework | Building backend projects & strong CS fundamentals | Open to SDE roles & internships`,
+            projects: `Personal Projects:\n1. BookMyStay – Full-Stack Rental Booking Platform\n   - Built a scalable, production-ready rental booking web application.\n   - Tech Stack: Python, Django, Django REST Framework, PostgreSQL, Docker\n   - Integrated real-time chat using Django Channels and WebSockets.\n\n2. SQL Data Engineering Project\n   - Production-ready data warehouse solution.\n   - Medallion Architecture: Implements Bronze, Silver, and Gold layers.\n   - Complete ETL Pipeline: From raw CSV files to analytical insights.`,
+            skills: `Skills:\nProgramming Languages: Python, SQL\nFrameworks and Libraries: Django, Django Rest Framework\nDatabases: PostgreSQL\nTechnologies: Linux, VS Code, PyCharm`,
+            contact: `Contact:\n+91-9766463187\narbazshaikh.dev@gmail.com\nlinkedin: www.linkedin.com/in/1arbaz`,
+        };
+
+        function appendToOutput(output) {
+            const outputElement = document.createElement('div');
+            outputElement.textContent = output;
+            outputElement.style.whiteSpace = 'pre';
+            outputElement.style.marginBottom = '10px'; // Add space after each command result
+            outputArea.appendChild(outputElement);
+            outputArea.scrollTop = outputArea.scrollHeight;
+        }
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const command = input.value.trim();
+                appendToOutput(`visitor@arbaz:~$ ${command}`);
+                if (commands[command]) {
+                    appendToOutput(commands[command]);
+                } else {
+                    appendToOutput('Command not found. Type "help" for a list of commands.');
+                }
+                input.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -147,6 +147,20 @@
             }
         }
 
+        /* Mobile fix for ASCII banner */
+@media (max-width: 768px) {
+    .ascii-art {
+        font-size: 8px;   /* reduce size */
+        line-height: 1;   /* tighter spacing */
+        overflow-x: auto; /* allow scroll if still wide */
+    }
+
+    .ascii-art pre {
+        transform: scale(0.85);   /* shrink overall */
+        transform-origin: left top;
+    }
+}
+
         .blinking-cursor {
             display: inline-block;
             width: 10px;
@@ -220,7 +234,11 @@
         contact - Contact details
         clear - Clear terminal`,
         
-            about: `Aspiring Software Developer | MCA @ VJTI Mumbai | Skilled in Python, Django, Django REST Framework | Building backend projects & strong CS fundamentals | Open to SDE roles & internships`,
+            about: `Aspiring Software Developer 
+            | MCA @ VJTI Mumbai | 
+            Skilled in Python, Django, Django REST Framework 
+            | Building backend projects & strong CS fundamentals |
+            Open to SDE roles & internships`,
         
             projects: `Personal Projects:
         1. BookMyStay – Full-Stack Rental Booking Platform
@@ -256,9 +274,10 @@
         
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                const command = input.value.trim();
+                const rawCommand = input.value.trim(); 
+                const command = input.value.trim().toLowerCase();
         
-                appendToOutput(`visitor@arbaz:~$ ${command}`);
+                appendToOutput(`visitor@arbaz:~$ ${rawCommand}`);
         
                 if (command === 'clear') {
                     outputArea.innerHTML = '';

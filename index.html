@@ -9,9 +9,14 @@
             margin: 0;
             padding: 0;
             background-color: #000;
-            color: #00ff00;
+            color: var(--theme-color);
+            border-color: var(--theme-color);
             font-family: 'Courier New', Courier, monospace;
             overflow-x: hidden; /* only hide horizontal */
+        }
+
+        :root {
+            --theme-color: #00ff00; /* default green */
         }
 
         .top-section {
@@ -49,9 +54,9 @@
         }
 
         .terminal-window {
-            border: 2px solid #00ff00;
+            border: 2px solid var(--theme-color);;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 10px var(--theme-color);;
             overflow: hidden;
             flex-grow: 1;
             display: flex;
@@ -129,7 +134,7 @@
         .input-line input {
             background: none;
             border: none;
-            color: #00ff00;
+            color: var(--theme-color);
             outline: none;
             font-family: inherit;
             font-size: 16px; /* prevents zoom on mobile */
@@ -165,7 +170,7 @@
             display: inline-block;
             width: 10px;
             height: 20px;
-            background-color: #00ff00;
+            background-color: var(--theme-color);
             animation: blink 1s step-start infinite;
         }
 
@@ -180,9 +185,9 @@
     <div class="terminal">
         <div class="terminal-window">
             <div class="terminal-header">
-                <div class="button close"></div>
-                <div class="button minimize"></div>
-                <div class="button maximize"></div>
+                <div class="button close" id="red-btn"></div>
+                <div class="button minimize" id="yellow-btn"></div>
+                <div class="button maximize" id="green-btn"></div>
             </div>
             <div class="terminal-body">
                 <div class="top-section">
@@ -200,12 +205,12 @@
                         <p>Contact Details:</p>
                         <p>+91-9766463187</p>
                         <p>arbazshaikh.dev@gmail.com</p>
-                        <p>linkedin: <a href="https://www.linkedin.com/in/1arbaz" target="_blank" style="color: #00ff00; text-decoration: none;">www.linkedin.com/in/1arbaz</a></p>
+                        <p>linkedin: <a href="https://www.linkedin.com/in/1arbaz" target="_blank" style="color: var(--theme-color); text-decoration: none;">www.linkedin.com/in/1arbaz</a></p>
                         <p>About:</p>
                         <p>"Aspiring Software Developer | MCA @ VJTI Mumbai | Skilled in Python, Django, Django REST Framework | Building backend projects & strong CS fundamentals | Open to SDE roles & internships"</p>
                     </div>
                 </div>
-                <div class="output-area" style="margin-top: 20px; overflow-y: auto; max-height: 200px; border-top: 1px solid #00ff00; padding-top: 10px;">
+                <div class="output-area" style="margin-top: 20px; overflow-y: auto; max-height: 200px; border-top: 1px solid var(--theme-color); padding-top: 10px;">
                     <!-- Space added after each command result -->
                 </div>
                 <div style="display: flex; flex-direction: column; margin-top: 20px;">
@@ -292,6 +297,20 @@
                 input.value = '';
             }
         });
+
+        const root = document.documentElement;
+
+document.getElementById('red-btn').addEventListener('click', () => {
+    root.style.setProperty('--theme-color', '#ff5f56');
+});
+
+document.getElementById('yellow-btn').addEventListener('click', () => {
+    root.style.setProperty('--theme-color', '#ffbd2e');
+});
+
+document.getElementById('green-btn').addEventListener('click', () => {
+    root.style.setProperty('--theme-color', '#00ff00');
+});
         </script>
 </body>
 </html>
